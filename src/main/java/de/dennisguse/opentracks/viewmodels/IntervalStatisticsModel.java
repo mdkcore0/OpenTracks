@@ -1,6 +1,7 @@
 package de.dennisguse.opentracks.viewmodels;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.dennisguse.opentracks.content.data.TrackPoint;
+import de.dennisguse.opentracks.util.PreferencesUtils;
 import de.dennisguse.opentracks.util.UnitConversions;
 
 /**
@@ -22,9 +24,11 @@ public class IntervalStatisticsModel extends AndroidViewModel {
     private final List<TrackPoint> trackPoints = new ArrayList<>();
     private MutableLiveData<List<IntervalStatistics.Interval>> intervalsLiveData;
     private float distanceInterval;
+    private int minGPSDistance;
 
     public IntervalStatisticsModel(@NonNull Application application) {
         super(application);
+        minGPSDistance = PreferencesUtils.getRecordingDistanceInterval(PreferencesUtils.getSharedPreferences(application), application);
     }
 
     public MutableLiveData<List<IntervalStatistics.Interval>> getIntervalStats(boolean metricUnits, @Nullable IntervalOption interval) {
@@ -43,7 +47,7 @@ public class IntervalStatisticsModel extends AndroidViewModel {
     }
 
     private void loadIntervalStatistics() {
-        IntervalStatistics intervalStatistics = new IntervalStatistics(trackPoints, distanceInterval);
+        IntervalStatistics intervalStatistics = new IntervalStatistics(trackPoints, distanceInterval, minGPSDistance);
         intervalsLiveData.postValue(intervalStatistics.getIntervalList());
     }
 

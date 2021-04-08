@@ -11,6 +11,7 @@ import de.dennisguse.opentracks.content.data.Track;
 import de.dennisguse.opentracks.content.data.TrackPoint;
 import de.dennisguse.opentracks.stats.TrackStatistics;
 import de.dennisguse.opentracks.stats.TrackStatisticsUpdater;
+import de.dennisguse.opentracks.util.PreferencesUtils;
 import de.dennisguse.opentracks.util.UnitConversions;
 
 import static org.junit.Assert.assertEquals;
@@ -113,7 +114,7 @@ public class IntervalStatisticsTest {
 	}
 
 	private void whenAndThen(List<TrackPoint> trackPoints, TrackStatistics trackStatistics, float distanceInterval) {
-		IntervalStatistics intervalStatistics = new IntervalStatistics(trackPoints, distanceInterval);
+		IntervalStatistics intervalStatistics = new IntervalStatistics(trackPoints, distanceInterval, 0);
 		List<IntervalStatistics.Interval> intervalList = intervalStatistics.getIntervalList();
 		double totalDistance = 0d;
 		float totalTime = 0L;
